@@ -1,0 +1,12 @@
+
+.task {
+    width: 100%;
+    text-align: left;
+    margin: 4px 0;
+    padding-left: 8px;
+    cursor: pointer;
+  }
+
+.task.completed {
+  text-decoration: line-through black;
+}  

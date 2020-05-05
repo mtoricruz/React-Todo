@@ -2,30 +2,32 @@ import React from 'react';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
 
+// render bug fix: before my task keys were task/id/completed but my addTask function had name/id/completed. So my original tasks wouldn't render because Todo would comp would render the added tasks with the proper key. If something doesn't render on DOM check naming uniform between files*****
+
 const tasks = [
   {
-    task: 'Get Groceries',
+    name: 'Get Groceries',
     id: 1232,
     completed: false
   },
   {
-    task: 'Clean House',
+    name: 'Clean House',
     id: 1233,
     completed: false
   },
   {
-    task: 'Go to Sleep',
+    name: 'Go to Sleep',
     id: 1234,
     completed: false
-  },
-]
+  }
+];
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
   constructor() {
     super();
     this.state = {
-      tasks
+      tasks,
     }
   }
 
@@ -42,7 +44,47 @@ class App extends React.Component {
     })
   }
 
-  
+  clearCompleted = e => {
+    e.preventDefault();
+    // const clearTask = tasks.filter((task) => {
+    //   if (task.completed === true) {
+    //     return {
+          
+    //     }
+    //   } else {
+    //     return task;
+    //   }
+    // })
+    this.setState(prevState => {
+      return {
+        tasks: prevState.tasks.filter(task => {
+          return !task.completed;
+        })
+      }
+    })
+  }
+
+  toggleComplete = clickedId => {
+    // no mutating the current state
+    // for every array and every object - create a new one (via array methods)
+    const newTaskList = this.state.tasks.map((task) => {
+      // loop through array
+      // find the item we clicked (id)
+      // toggle that item's purchased property
+      if (task.id === clickedId) {
+        // toggle complete
+        return {
+          ...task,
+          completed: !task.completed
+        }
+      } else {
+        return task;
+      }
+    });
+    this.setState({
+      tasks: newTaskList
+    })
+  }
 
   render() {
     return (
@@ -51,7 +93,11 @@ class App extends React.Component {
           <h2>Welcome to your Todo App!</h2>
           <TodoForm addTask={this.addTask} />
         </div>
-        <TodoList tasks={this.state.tasks} />
+        <TodoList 
+          tasks={this.state.tasks} 
+          clearCompleted={this.clearCompleted}
+          toggleComplete={this.toggleComplete} 
+        />
       </div>
     );
   }
