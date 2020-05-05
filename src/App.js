@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoList from './components/TodoList';
 import TodoForm from './components/TodoForm';
+import './App.css';
 
 // render bug fix: before my task keys were task/id/completed but my addTask function had name/id/completed. So my original tasks wouldn't render because Todo would comp would render the added tasks with the proper key. If something doesn't render on DOM check naming uniform between files*****
 
